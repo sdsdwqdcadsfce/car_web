@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>登陆页面</title>
+		<link rel="stylesheet" type="text/css" href="css/detailsmusic.css" />
+
+	</head>
+
+	<body>
+		<div class="music-lgin">
+
+			<div class="music-lgin-all">
+				<!--左手-->
+				<div class="music-lgin-left ovhd">
+					<div class="music-hand">
+						<div class="music-lgin-hara"></div>
+						<div class="music-lgin-hars"></div>
+					</div>
+				</div>
+
+				<!--脑袋-->
+				<div class="music-lgin-dh">
+					<div class="music-lgin-alls">
+						<div class="music-lgin-eyeleft">
+							<div class="music-left-eyeball yeball-l"></div>
+						</div>
+						<div class="music-lgin-eyeright">
+							<div class="music-right-eyeball yeball-r"></div>
+						</div>
+						<div class="music-lgin-cl"></div>
+					</div>
+					<!--鼻子-->
+					<div class="music-nose"></div>
+					<!--嘴-->
+					<div class="music-mouth music-mouth-ds"></div>
+					<!--肩-->
+					<div class="music-shoulder-l">
+						<div class="music-shoulder"></div>
+					</div>
+					<div class="music-shoulder-r">
+						<div class="music-shoulder"></div>
+					</div>
+					<!--消息框-->
+					<div class="music-news">注册页面</div>
+				</div>
+
+				<!--右手-->
+				<div class="music-lgin-right ovhd">
+					<div class="music-hand">
+						<div class="music-lgin-hara"></div>
+						<div class="music-lgin-hars"></div>
+					</div>
+				</div>
+
+			</div>
+
+			<!--1-->
+			<div class="music-lgin-text first">
+				<input class="inputname inputs" type="text" placeholder="请输入用户名" />
+			</div>
+			<!--2-->
+			<div class="music-lgin-text">
+				<input type="password" class="mima inputs" placeholder="请输入密码" />
+			</div>
+			<!--2-->
+			<div class="music-lgin-text">
+				<input  class="phone inputs" placeholder="请输入手机号" />
+			</div>
+			<!--3-->
+			<div class="music-lgin-text">
+				<input class="music-qd inputs" type="button" value="注册" />
+			</div>
+
+		</div>
+
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript">
+			//眼睛 密码部分
+			$(".mima").focus(function() {
+				$(".music-lgin-left").addClass("left-dh").removeClass("rmleft-dh");
+				$(".music-lgin-right").addClass("right-dh").removeClass("right-rmdh");
+				$(".music-hand").addClass("no");
+			}).blur(function() {
+				$(".music-lgin-left").removeClass("left-dh").addClass("rmleft-dh");
+				$(".music-lgin-right").removeClass("right-dh").addClass("right-rmdh");
+				$(".music-hand").removeClass("no");
+
+			})
+			//点击小人出来
+			$(".inputname").focus(function() {
+				$(".music-lgin-all").addClass("block");
+				$(".music-news").addClass("no")
+			})
+			//点击小人消失
+
+			         // $(".music-qd").focus(function(){
+			         // 	$(".music-lgin-all").removeClass("block")
+			         // })
+
+
+			//注册正则 简单判断
+			$('.regist').click(function () {
+				// window.event.returnValue=false
+				window.location.href="regist.html";
+			})
+			 
+            $('.music-qd').click(function(){
+                if(($('.inputname').val()=='')){
+                    $(".music-news").html("请输入名称")
+					alert('请输入用户名')
+                }else if(($('.mima').val()=='')){
+                	 $(".music-news").html("请输入密码")
+                    $(".music-news").addClass("block")
+					alert('请输入密码')
+                }else if(($('.phone').val()=='')){
+					$(".music-news").html("请输入密码")
+					$(".music-news").addClass("block")
+					alert('请输入手机号')
+				}else{
+                	// alert('提交ajax')
+					var dataJson = {"username":$('.inputname').val(), "password":$('.mima').val(),"userphone":$('.phone').val(),"useraddress":'暂未填写',
+							"realname":'默认名称'}
+					$.ajax({
+						type: "POST",
+						url: "http://127.0.0.1:7000/user/insert",
+						contentType:"application/json",
+						data:JSON.stringify(dataJson),
+						dataType: "json",
+						success: function(data){
+							if(data.code!='200'){
+								alert(data.msg)
+							}
+							else {
+								window.location.href="login.html";
+							}
+						},
+						error:function (info) {//请求失败后调用的函数
+						}
+					});
+                }      
+            })
+     
+
+			
+			
+		</script>
+
+	</body>
+
+</html>
